@@ -21,5 +21,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/customers/options', [\App\Http\Controllers\Api\V1\CustomerController::class, 'options']);
         Route::apiResource('customers', \App\Http\Controllers\Api\V1\CustomerController::class);
+
+        Route::apiResource('transactions', \App\Http\Controllers\Api\V1\TransactionController::class)->only(['index', 'store', 'show']);
     });
 });
