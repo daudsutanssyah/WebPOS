@@ -18,5 +18,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/products/options', [\App\Http\Controllers\Api\V1\ProductController::class, 'options']);
         Route::post('/products/{id}/image', [\App\Http\Controllers\Api\V1\ProductImageController::class, 'store']);
         Route::apiResource('products', \App\Http\Controllers\Api\V1\ProductController::class);
+
+        Route::get('/customers/options', [\App\Http\Controllers\Api\V1\CustomerController::class, 'options']);
+        Route::apiResource('customers', \App\Http\Controllers\Api\V1\CustomerController::class);
     });
 });
