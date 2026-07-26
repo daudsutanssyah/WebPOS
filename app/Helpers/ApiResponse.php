@@ -13,7 +13,7 @@ class ApiResponse
         int $status = Response::HTTP_OK
     ) {
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => $message,
             'data' => $data,
         ], $status);
