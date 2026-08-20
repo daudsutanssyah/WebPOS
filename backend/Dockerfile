@@ -25,7 +25,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 WORKDIR /var/www/html
 
 # Salin seluruh berkas proyek dari folder backend lokal ke dalam kontainer
-COPY . .
+COPY backend/ .
 
 # Unduh Composer versi terbaru langsung ke dalam kontainer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
