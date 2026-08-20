@@ -1,4 +1,4 @@
-# Mengunci basis image sesuai versi PHP
+# Mengunci basis image sesuai versi presisi PHP lokal Anda (8.3) berbasis Linux Debian/Apache
 FROM php:8.3.21-apache
 
 # Instal dependensi Linux OS yang dibutuhkan oleh Laravel & ekstensi PHP bawaan Laragon
@@ -21,14 +21,6 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# [PERBAIKAN UTAMA UNTUK RAILWAY]
-# 1. Beritahu Apache untuk membaca dan meneruskan variabel OS PORT ke dalam sistem konfigurasi internalnya
-RUN echo "PassEnv PORT" >> /etc/apache2/apache2.conf
-
-# 2. Ubah port bawaan 80 agar membaca variabel ${PORT} secara aman saat dijalankan
-RUN sed -i 's/Listen 80/Listen ${PORT}/g' /etc/apache2/ports.conf
-RUN sed -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/g' /etc/apache2/sites-available/*.conf
-
 # Atur direktori kerja di dalam kontainer Docker
 WORKDIR /var/www/html
 
@@ -44,5 +36,5 @@ RUN composer install --no-interaction --no-dev --optimize-autoloader
 # Berikan izin akses penuh (permission) pada folder storage dan cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Memastikan perintah utama Apache berjalan di foreground agar kontainer tidak langsung mati setelah aktif
-CMD ["apache2-foreground"]
+
+CMD ["apache2-foreground", "-C", "Listen ${PORT}"]
