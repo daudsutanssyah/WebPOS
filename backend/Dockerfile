@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
 # Aktifkan modul mod_rewrite Apache agar routing /api/v1 Laravel bekerja
 RUN a2enmod rewrite
 
+# Perbaikan konflik MPM Apache agar kontainer tidak crash saat startup
+RUN a2dismod mpm_event mpm_worker && a2enmod mpm_prefork
+
 # Konfigurasi Apache Document Root agar langsung mengarah ke folder public Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -25,7 +28,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 WORKDIR /var/www/html
 
 # Salin seluruh berkas proyek dari folder backend lokal ke dalam kontainer
-COPY backend/ .
+COPY . .
 
 RUN ls -la
 
