@@ -16,13 +16,14 @@ RUN apt-get update && apt-get install -y \
 # Aktifkan modul mod_rewrite Apache agar routing /api/v1 Laravel bekerja
 RUN a2enmod rewrite
 
-# Perbaikan konflik MPM Apache agar kontainer tidak crash saat startup
-RUN a2dismod mpm_event mpm_worker && a2enmod mpm_prefork
-
 # Konfigurasi Apache Document Root agar langsung mengarah ke folder public Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# [PENTING UNTUK RAILWAY] Mengubah port Apache agar mengikuti variabel dinamis $PORT dari Railway
+RUN sed -i 's/Listen 80/Listen ${PORT}/g' /etc/apache2/ports.conf
+RUN sed -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/g' /etc/apache2/sites-available/*.conf
 
 # Atur direktori kerja di dalam kontainer Docker
 WORKDIR /var/www/html
@@ -30,16 +31,14 @@ WORKDIR /var/www/html
 # Salin seluruh berkas proyek dari folder backend lokal ke dalam kontainer
 COPY . .
 
-RUN ls -la
-
 # Unduh Composer versi terbaru langsung ke dalam kontainer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Jalankan instalasi dependensi vendor Laravel tanpa paket development (lebih ringan untuk production)
-RUN composer install --no-dev --optimize-autoloader
+# Jalankan instalasi dependensi vendor Laravel tanpa paket development
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-# Berikan izin akses penuh (permission) pada folder storage dan cache agar server bisa menulis log
+# Berikan izin akses penuh (permission) pada folder storage dan cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Buka gerbang port 80 untuk lalu lintas web publik Render
+# Railway akan menyuntikkan variabel $PORT secara otomatis, EXPOSE di bawah ini opsional namun baik untuk dokumentasi
 EXPOSE 80
