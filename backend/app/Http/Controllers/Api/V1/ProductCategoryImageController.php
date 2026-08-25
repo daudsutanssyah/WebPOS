@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UploadProductCategoryImageRequest;
 use App\Http\Resources\ProductCategoryResource;
 use App\Models\ProductCategory;
 use Illuminate\Http\Response;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductCategoryImageController extends Controller
 {
-    public function store(Request $request, string $id)
+    public function store(UploadProductCategoryImageRequest $request, string $id)
     {
         $category = ProductCategory::find($id);
 
@@ -21,10 +21,10 @@ class ProductCategoryImageController extends Controller
         };
 
         if ($category->image) {
-            Storage::disk('public')->delete($category->image);
+            Storage::delete($category->image);
         }
 
-        $path = $request->file('image')->store('product_categories', 'public');
+        $path = $request->file('image')->store('product_categories');
 
         $category->update(['image' => $path]);
 
