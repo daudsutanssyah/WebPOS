@@ -14,7 +14,7 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'category' => new ProductCategoryResource($this->whenLoaded('category')),
-            'image' => $this->image ? asset(Storage::url($this->image)) : null,
+            'image' => $this->image ? Storage::url($this->image) : null,
             'name' => $this->name,
             'price' => (float) (string) $this->price,
             'stock' => $this->stock,
