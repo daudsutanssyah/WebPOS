@@ -50,6 +50,20 @@ const submit = async () => {
     loading.value = true
     errors.value = {}
 
+    // client-side validation
+    const clientErrors: Record<string, string[]> = {}
+    if (!form.value.price || form.value.price <= 0) {
+        clientErrors.price = ['The price field must be greater than 0.']
+    }
+    if (form.value.stock === null || form.value.stock <= 0) {
+        clientErrors.stock = ['The stock field must be greater than 0.']
+    }
+    if (Object.keys(clientErrors).length > 0) {
+        errors.value = clientErrors
+        loading.value = false
+        return
+    }
+
     try {
         const payload = {
             product_category_id: form.value.product_category_id!,
@@ -218,7 +232,7 @@ onMounted(async () => {
 
                                 <InputNumber id="price" v-model="form.price" mode="currency" currency="IDR"
                                     locale="id-ID" fluid class="bg-surface-50! focus:bg-white! border-surface-200"
-                                    :invalid="!!errors.price" />
+                                    :min="1" :invalid="!!errors.price" />
 
                                 <Message v-if="errors.price" severity="error" size="small" variant="simple">
                                     {{ errors.price[0] }}
@@ -230,7 +244,7 @@ onMounted(async () => {
                                     Stock <span class="text-red-600">*</span>
                                 </label>
 
-                                <InputNumber id="stock" v-model="form.stock" :min="0" fluid
+                                <InputNumber id="stock" v-model="form.stock" :min="1" fluid
                                     class="bg-surface-50! focus:bg-white! border-surface-200"
                                     :invalid="!!errors.stock" />
 

@@ -16,8 +16,8 @@ class UpdateProductRequest extends FormRequest
         return [
             'product_category_id' => ['sometimes', 'exists:product_categories,id'],
             'name' => ['sometimes', 'string', 'max:255'],
-            'price' => ['sometimes', 'numeric', 'min:0'],
-            'stock' => ['sometimes', 'integer', 'min:0'],
+            'price' => ['sometimes', 'numeric', 'min:1'],
+            'stock' => ['sometimes', 'integer', 'min:1'],
         ];
     }
 }
