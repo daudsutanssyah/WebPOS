@@ -34,7 +34,8 @@ Aplikasi Point of Sale (POS) berbasis web untuk mencatat transaksi, mengelola pr
 
 ## 📸 Screenshot
 
-(tambahkan gambar di sini)
+<img width="944" height="505" alt="image" src="https://github.com/user-attachments/assets/a1c0822d-b704-432b-b07e-e3439d351581" />
+
 
 ## 🏗️ Arsitektur
 
