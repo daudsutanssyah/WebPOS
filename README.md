@@ -16,7 +16,7 @@ Aplikasi Point of Sale (POS) berbasis web untuk mencatat transaksi, mengelola pr
 
 **Backend**: Laravel 13, MySQL, Sanctum (auth)
 
-**Frontend**: Vite, TypeScript
+**Frontend**: Vue.js, TypeScript
 
 **Storage**: Supabase Storage (untuk gambar produk)
 
