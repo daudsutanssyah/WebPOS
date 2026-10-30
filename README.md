@@ -12,7 +12,7 @@ Aplikasi Point of Sale (POS) berbasis web untuk mencatat transaksi, mengelola pr
 
   - Password: demo12345
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Backend**: Laravel 13, MySQL, Sanctum (auth)
 
@@ -22,7 +22,7 @@ Aplikasi Point of Sale (POS) berbasis web untuk mencatat transaksi, mengelola pr
 
 **Deployment**: Railway (backend), Vercel (frontend)
 
-## ✨ Fitur
+## Fitur
 
 - Autentikasi berbasis token (Sanctum)
 
@@ -37,6 +37,6 @@ Aplikasi Point of Sale (POS) berbasis web untuk mencatat transaksi, mengelola pr
 <img width="944" height="505" alt="image" src="https://github.com/user-attachments/assets/a1c0822d-b704-432b-b07e-e3439d351581" />
 
 
-## 🏗️ Arsitektur
+## Arsitektur
 
 Backend dan frontend di-deploy terpisah sebagai REST API dan SPA, menghubungkan keduanya lewat environment variable untuk base URL API.
