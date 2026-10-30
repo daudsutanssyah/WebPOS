@@ -185,13 +185,13 @@ const handleCheckout = async () => {
     }
 
     try {
-        const res = await checkout()
+        const res: any = await checkout()
 
         receiptData.value = {
             code: res.code,
-            customer: res.customer,
+            customer: res.customer as Customer,
             date: res.created_at,
-            items: res.items,
+            items: (res.items || []).map((it: any) => ({ name: it.name || it.product_name || "Item", quantity: String(it.quantity), price: it.price, subtotal: it.subtotal })),
             subtotal: res.subtotal,
             tax: res.tax,
             total: res.total,

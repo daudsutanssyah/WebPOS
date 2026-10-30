@@ -1,26 +1,52 @@
-import api from "./axios";
+import { delay, paginate, apiDataResponse, apiRawResponse } from "./mock-helpers";
+import { MockDatabase } from "@/services/mock-db";
 
-export const getCustomers = (params?: {
-    page?: number
-    search?: string
-    limit?: number
-}) => api.get('/customers', {params})
+export const getCustomers = async (params?: {
+  page?: number;
+  search?: string;
+  limit?: number;
+}) => {
+  await delay(150);
+  const all = MockDatabase.getCustomers(params?.search);
+  const paginated = paginate(all, params?.page || 1, params?.limit || 10);
+  return apiDataResponse(paginated);
+};
 
-export const getCustomersOptions = (params?: {
-    search?: string
-    limit?: number
-}) => api.get('/customers/options', {params})
+export const getCustomersOptions = async (params?: {
+  search?: string;
+  limit?: number;
+}) => {
+  await delay(100);
+  let all = MockDatabase.getCustomers(params?.search);
+  if (params?.limit) {
+    all = all.slice(0, params.limit);
+  }
+  return apiDataResponse(all);
+};
 
-export const getCustomer = (id: number) => api.get(`/customers/${id}`)
+export const getCustomer = async (id: number) => {
+  await delay(80);
+  const customer = MockDatabase.getCustomerById(Number(id));
+  return apiDataResponse(customer);
+};
 
-export const createCustomer = (payload: {
-    name: string
-    phone: string
-}) => api.post('/customers', payload)
+export const createCustomer = async (payload: { name: string; phone: string }) => {
+  await delay(150);
+  const created = MockDatabase.createCustomer(payload);
+  return apiDataResponse(created);
+};
 
-export const updateCustomer = (
-    id: number,
-    payload: { name: string, phone: string }
-) => api.put(`/customers/${id}`, payload)
+export const updateCustomer = async (
+  id: number,
+  payload: { name: string; phone: string }
+) => {
+  await delay(150);
+  const updated = MockDatabase.updateCustomer(Number(id), payload);
+  return apiDataResponse(updated);
+};
 
-export const deleteCustomer = (id: number) => api.delete(`/customers/${id}`)
+export const deleteCustomer = async (id: number) => {
+  await delay(100);
+  MockDatabase.deleteCustomer(Number(id));
+  return apiRawResponse({ message: "Customer deleted successfully" });
+};

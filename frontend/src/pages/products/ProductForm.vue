@@ -122,7 +122,7 @@ onMounted(async () => {
         const data = res.data.data
 
         form.value.id = data.id
-        form.value.product_category_id = data.category?.id
+        form.value.product_category_id = data.category?.id ?? null
         form.value.name = data.name
         form.value.price = data.price
         form.value.stock = data.stock

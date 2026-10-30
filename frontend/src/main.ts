@@ -10,6 +10,18 @@ import router from "./router";
 import { definePreset } from "@primeuix/themes";
 import { option } from "@primeuix/themes/aura/autocomplete";
 import { ConfirmationService, ToastService } from "primevue";
+import { StorageService } from "./services/storage.service";
+
+// Inisialisasi data dummy awal di LocalStorage
+StorageService.initStorage();
+
+// Ekspos helper reset database di window untuk kemudahan demo / testing portfolio
+if (typeof window !== "undefined") {
+  (window as any).resetWebPosData = () => {
+    StorageService.resetStorage();
+    window.location.reload();
+  };
+}
 
 const app = createApp(App);
 

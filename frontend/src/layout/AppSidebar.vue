@@ -3,10 +3,11 @@ import router from "@/router";
 import { useAuthStore } from "@/stores/auth.store";
 import { Button, Dialog } from "primevue";
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 
 const authStore = useAuthStore();
-const { user } = authStore;
+const { user } = storeToRefs(authStore);
 
 const logoutDialog = ref(false);
 

@@ -5,7 +5,7 @@ import { Button, InputText, Message } from "primevue";
 import { ref } from "vue";
 
 const DEMO_EMAIL = "demo@webpos.com";
-const DEMO_PASSWORD = "demo12345";
+const DEMO_PASSWORD = "password";
 
 const auth = useAuthStore();
 const error = ref<string | null>(null);
@@ -103,7 +103,7 @@ async function loginAsDemo() {
             </div>
             <div class="flex items-center gap-2">
               <span class="text-blue-400 w-16 shrink-0">Password</span>
-              <code class="bg-white border border-blue-200 rounded px-2 py-0.5 text-blue-800 font-mono text-xs select-all">demo12345</code>
+              <code class="bg-white border border-blue-200 rounded px-2 py-0.5 text-blue-800 font-mono text-xs select-all">password</code>
             </div>
           </div>
           <Button
